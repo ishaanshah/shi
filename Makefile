@@ -8,7 +8,7 @@ SDIR = src
 BDIR = _build
 
 # List of dependancies for compiling
-ALL_OBJECTS = $(BDIR)/shi.o
+ALL_OBJECTS = $(BDIR)/shi.o $(BDIR)/utils.o
 
 build: $(ALL_OBJECTS)
 	$(CC) $(CFLAGS) -I$(IDIR) -o shi $(ALL_OBJECTS)
@@ -18,6 +18,9 @@ debug: ysh
 
 $(BDIR)/shi.o: $(SDIR)/shi.c $(IDIR)/shi.h
 	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/shi.c -o $(BDIR)/shi.o
+
+$(BDIR)/utils.o: $(SDIR)/utils.c $(IDIR)/utils.h
+	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/utils.c -o $(BDIR)/utils.o
 
 clean:
 	rm -r _build shi
