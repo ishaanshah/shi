@@ -3,4 +3,8 @@
 
 void replace_tilde(char *path);
 
+const char *get_username();
+
+void trim_whitespaces(char *str);
+
 #endif

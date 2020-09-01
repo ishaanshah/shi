@@ -1,6 +1,7 @@
 #ifndef __COMMON_H
 #define __COMMON_H
 
+#include <ctype.h>
 #include <limits.h>
 #include <pwd.h>
 #include <stdio.h>
