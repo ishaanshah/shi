@@ -48,11 +48,11 @@ int main() {
             }
 
             if (c.argc > 0) {
-                int cmd_id = string_to_handler_id(c.argv[0]);
-                if (cmd_id < 0) {
+                int handler_id = string_to_handler_id(c.argv[0]);
+                if (handler_id < 0) {
                     fprintf(stderr, "Command not found: %s\n", c.argv[0]);
                 } else {
-                    printf("%d", cmd_id);
+                    handlers[handler_id](c);
                 }
             }
 
