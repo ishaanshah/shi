@@ -3,7 +3,7 @@
 #include "../include/echo.h"
 #include "../include/handlers.h"
 #include "../include/pinfo.h"
-#include "../include/pwd.h"
+#include "../include/pcwd.h"
 #include "../include/types.h"
 
 const char *builtin_cmds[] = {
@@ -17,7 +17,7 @@ void (*handlers[]) (command c) = {
     cd,
     echo,
     pinfo,
-    pwd,
+    pcwd,
 };
 
 const int string_to_handler_id(const char *cmd) {

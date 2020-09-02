@@ -1,8 +1,8 @@
 #include "../include/common.h"
-#include "../include/pwd.h"
+#include "../include/pcwd.h"
 #include "../include/types.h"
 
-void pwd(command c) {
+void pcwd(command c) {
     /* Prints the current working directory
      *
      * Args -
