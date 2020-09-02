@@ -2,18 +2,21 @@
 #include "../include/common.h"
 #include "../include/echo.h"
 #include "../include/handlers.h"
+#include "../include/pinfo.h"
 #include "../include/pwd.h"
 #include "../include/types.h"
 
 const char *builtin_cmds[] = {
     "cd",
     "echo",
+    "pinfo",
     "pwd",
 };
 
 void (*handlers[]) (command c) = {
     cd,
     echo,
+    pinfo,
     pwd,
 };
 
