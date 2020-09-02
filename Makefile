@@ -8,7 +8,7 @@ SDIR = src
 BDIR = _build
 
 # List of dependancies for compiling
-ALL_OBJECTS =  $(BDIR)/cd.o $(BDIR)/echo.o $(BDIR)/handlers.o $(BDIR)/shi.o $(BDIR)/utils.o
+ALL_OBJECTS =  $(BDIR)/cd.o $(BDIR)/echo.o $(BDIR)/handlers.o $(BDIR)/pwd.o $(BDIR)/shi.o $(BDIR)/utils.o
 
 build: $(ALL_OBJECTS)
 	$(CC) $(CFLAGS) -I$(IDIR) -o shi $(ALL_OBJECTS)
@@ -24,6 +24,9 @@ $(BDIR)/echo.o: $(SDIR)/echo.c $(IDIR)/echo.h $(IDIR)/common.h $(IDIR)/types.h
 
 $(BDIR)/handlers.o: $(SDIR)/handlers.c $(IDIR)/handlers.h $(IDIR)/cd.h $(IDIR)/common.h $(IDIR)/echo.h $(IDIR)/types.h
 	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/handlers.c -o $(BDIR)/handlers.o
+
+$(BDIR)/pwd.o: $(SDIR)/pwd.c $(IDIR)/pwd.h $(IDIR)/common.h $(IDIR)/types.h
+	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/pwd.c -o $(BDIR)/pwd.o
 
 $(BDIR)/shi.o: $(SDIR)/shi.c $(IDIR)/shi.h $(IDIR)/common.h $(IDIR)/constants.h $(IDIR)/handlers.h $(IDIR)/types.h $(IDIR)/utils.h
 	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/shi.c -o $(BDIR)/shi.o
