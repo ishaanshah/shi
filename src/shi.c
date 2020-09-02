@@ -39,7 +39,7 @@ int main() {
             c.argc = 0;
             while (cmd_arg != NULL) {
                 // Acquire necessary memory to store the argument
-                c.argv[c.argc] = malloc(sizeof(char) * strlen(cmd_arg));
+                c.argv[c.argc] = malloc(sizeof(char) * (strlen(cmd_arg) + 1));
                 strcpy(c.argv[c.argc], cmd_arg);
                 c.argc += 1;
 

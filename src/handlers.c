@@ -1,14 +1,17 @@
+#include "../include/cd.h"
 #include "../include/common.h"
 #include "../include/echo.h"
 #include "../include/handlers.h"
 #include "../include/types.h"
 
 const char *builtin_cmds[] = {
+    "cd",
     "echo",
 };
 
 void (*handlers[]) (command c) = {
-    echo
+    cd,
+    echo,
 };
 
 const int string_to_handler_id(const char *cmd) {
