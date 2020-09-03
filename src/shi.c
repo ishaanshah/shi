@@ -20,7 +20,7 @@ int main() {
     while (1) {
         // Get current directory
         cwd = getcwd(NULL, 0);
-        replace_tilde(cwd);
+        replace_with_tilde(cwd);
 
         // Print prompt
         printf("<%s@%s:%s>", get_username(), hostname, cwd);

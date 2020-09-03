@@ -1,7 +1,9 @@
 #ifndef __UTILS_H
 #define __UTILS_H
 
-const char *get_homedir();
+void get_homedir(char *buf);
+
+void replace_with_tilde(char *path);
 
 void replace_tilde(char *path);
 

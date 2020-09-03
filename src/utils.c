@@ -1,20 +1,32 @@
 #include "../include/common.h"
+#include "../include/constants.h"
 #include "../include/utils.h"
 
-const char *get_homedir() {
-    /* Returns the absolute path of user's home directory */
-    const char *homedir = getpwuid(getuid()) -> pw_dir;
-    return homedir;
+void get_homedir(char *buf) {
+    /* Get the absolute path of user's home directory.
+     *
+     * Args -
+     *  buf: The buffer to store the homdir in.
+     */
+    char process_exe_path[MAX_PATH_LEN];
+    sprintf(process_exe_path, "/proc/%d/exe", getpid());
+    // If home directory can't be read, exit the shell
+    if (readlink(process_exe_path, buf, MAX_PATH_LEN) < -1) {
+        perror("");
+        exit(errno);
+    };
+    *strrchr(buf, '/') = '\0';
 }
 
-void replace_tilde(char *path) {
+void replace_with_tilde(char *path) {
     /* Replace the home directory with tilde if needed. Overwrites the absolute path
      * passed with the one with tilde if home is present.
      *
      * Args -
      *  path: The absolute path to current working directory.
      */
-    const char *homedir = get_homedir();
+    char homedir[MAX_PATH_LEN];
+    get_homedir(homedir);
 
     unsigned long path_len = strlen(path);
     unsigned long homedir_len = strlen(homedir);
@@ -26,6 +38,29 @@ void replace_tilde(char *path) {
         strcpy(result + sizeof(char), path + homedir_len);
         strcpy(path, result);
         free(result);
+    }
+}
+
+void replace_tilde(char *path) {
+    /* Replace the tilde with home directory if needed. Overwrite the path variable
+     * passed.
+     *
+     * Args -
+     *  path: The path to replace tilde if needed
+     */
+    if (path[0] == '~') {
+        // Remove the leading tilde
+        memmove(path, &path[1], strlen(path) * sizeof(char));
+
+        // Get homedir
+        char homedir[MAX_PATH_LEN];
+        get_homedir(homedir);
+
+        // Replace tilde if needed
+        char buf[MAX_PATH_LEN];
+        strcpy(buf, homedir);
+        strcat(buf, path);
+        strcpy(path, buf);
     }
 }
 
