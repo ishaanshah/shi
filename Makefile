@@ -8,7 +8,7 @@ SDIR = src
 BDIR = _build
 
 # List of dependancies for compiling
-ALL_OBJECTS =  $(BDIR)/cd.o $(BDIR)/echo.o $(BDIR)/handlers.o $(BDIR)/pinfo.o $(BDIR)/pcwd.o $(BDIR)/shi.o $(BDIR)/utils.o
+ALL_OBJECTS =  $(BDIR)/cd.o $(BDIR)/echo.o $(BDIR)/handlers.o $(BDIR)/ls.o $(BDIR)/pcwd.o $(BDIR)/pinfo.o $(BDIR)/shi.o $(BDIR)/utils.o
 
 build: $(ALL_OBJECTS)
 	$(CC) $(CFLAGS) -I$(IDIR) -o shi $(ALL_OBJECTS)
@@ -24,6 +24,9 @@ $(BDIR)/echo.o: $(SDIR)/echo.c $(IDIR)/echo.h $(IDIR)/common.h $(IDIR)/types.h
 
 $(BDIR)/handlers.o: $(SDIR)/handlers.c $(IDIR)/handlers.h $(IDIR)/cd.h $(IDIR)/common.h $(IDIR)/echo.h $(IDIR)/ls.h $(IDIR)/pcwd.h $(IDIR)/pinfo.h $(IDIR)/types.h
 	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/handlers.c -o $(BDIR)/handlers.o
+
+$(BDIR)/ls.o: $(SDIR)/ls.c $(IDIR)/ls.h $(IDIR)/common.h $(IDIR)/constants.h $(IDIR)/types.h
+	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/ls.c -o $(BDIR)/ls.o
 
 $(BDIR)/pinfo.o: $(SDIR)/pinfo.c $(IDIR)/pinfo.h $(IDIR)/common.h $(IDIR)/constants.h $(IDIR)/types.h
 	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/pinfo.c -o $(BDIR)/pinfo.o

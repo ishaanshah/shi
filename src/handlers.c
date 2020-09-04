@@ -2,6 +2,7 @@
 #include "../include/common.h"
 #include "../include/echo.h"
 #include "../include/handlers.h"
+#include "../include/ls.h"
 #include "../include/pinfo.h"
 #include "../include/pcwd.h"
 #include "../include/types.h"
@@ -9,6 +10,7 @@
 const char *builtin_cmds[] = {
     "cd",
     "echo",
+    "ls",
     "pinfo",
     "pwd",
 };
@@ -16,6 +18,7 @@ const char *builtin_cmds[] = {
 void (*handlers[]) (command c) = {
     cd,
     echo,
+    ls,
     pinfo,
     pcwd,
 };
