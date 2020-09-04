@@ -1,5 +1,6 @@
 #include "../include/common.h"
 #include "../include/constants.h"
+#include "../include/execute.h"
 #include "../include/handlers.h"
 #include "../include/shi.h"
 #include "../include/types.h"
@@ -50,7 +51,7 @@ int main() {
             if (c.argc > 0) {
                 int handler_id = string_to_handler_id(c.argv[0]);
                 if (handler_id < 0) {
-                    fprintf(stderr, "Command not found: %s\n", c.argv[0]);
+                    execute(c);
                 } else {
                     handlers[handler_id](c);
                 }
