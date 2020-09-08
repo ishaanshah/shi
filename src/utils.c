@@ -15,7 +15,7 @@ void get_homedir(char *buf) {
         perror("");
         exit(errno);
     };
-    *strrchr(buf, '/') = '\0';
+    dirname(buf);
 }
 
 void replace_with_tilde(char *path) {
@@ -87,4 +87,22 @@ void trim_whitespaces(char *str) {
             break;
         }
     }
+}
+
+void print_prompt() {
+    /* Print the promt in the shell */
+    char *cwd;
+    char hostname[HOST_NAME_MAX];
+
+    // Get current directory
+    cwd = getcwd(NULL, 0);
+    replace_with_tilde(cwd);
+
+    // Set hostname
+    gethostname(hostname, HOST_NAME_MAX);
+
+    printf("<%s@%s:%s> ", get_username(), hostname, cwd);
+    fflush(stdout);
+
+    free(cwd);
 }

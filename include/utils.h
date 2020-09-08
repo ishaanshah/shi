@@ -11,4 +11,6 @@ const char *get_username();
 
 void trim_whitespaces(char *str);
 
+void print_prompt();
+
 #endif

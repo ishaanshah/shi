@@ -3,29 +3,27 @@
 #include "../include/execute.h"
 #include "../include/handlers.h"
 #include "../include/shi.h"
+#include "../include/signal_handlers.h"
 #include "../include/types.h"
 #include "../include/utils.h"
 
 int main() {
-    char hostname[HOST_NAME_MAX];
-    char *cwd;
     char *cmd_list = NULL;
     size_t cmd_len = 0;
 
-    // Set hostname
-    gethostname(hostname, HOST_NAME_MAX);
+    register_signal_handlers();
 
     // Struct to store information regarding the command
     struct command c = {0};
     c.argv = malloc(sizeof(char *) * MAX_ARG_COUNT);
     while (1) {
-        // Get current directory
-        cwd = getcwd(NULL, 0);
-        replace_with_tilde(cwd);
-
         // Print prompt
-        printf("<%s@%s:%s>", get_username(), hostname, cwd);
-        getline(&cmd_list, &cmd_len, stdin);
+        print_prompt();
+
+        // Read line, if response is -1, exit
+        if (getline(&cmd_list, &cmd_len, stdin) < 0) {
+            exit(0);
+        };
 
         // Parse commands
         char *save_ptr[2];
@@ -70,7 +68,6 @@ int main() {
 
     // Cleanup
     free(c.argv);
-    free(cwd);
     free(cmd_list);
 
     return 0;

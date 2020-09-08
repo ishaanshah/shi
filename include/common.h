@@ -4,8 +4,10 @@
 #include <ctype.h>
 #include <dirent.h>
 #include <errno.h>
+#include <fcntl.h>
 #include <getopt.h>
 #include <grp.h>
+#include <libgen.h>
 #include <limits.h>
 #include <pwd.h>
 #include <stdio.h>

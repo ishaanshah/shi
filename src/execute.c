@@ -1,6 +1,11 @@
 #include "../include/common.h"
 #include "../include/execute.h"
+#include "../include/signal_handlers.h"
 #include "../include/types.h"
+
+int check_trailing_amp(command c) {
+    return c.argv[c.argc-1][0] == '&' ? 1 : 0;
+}
 
 void execute(command c) {
     pid_t pid = fork();
@@ -11,23 +16,57 @@ void execute(command c) {
         return;
     }
 
+    const int bg = check_trailing_amp(c);
+
     if (pid == 0) {
         // Child process
-        char **argv = malloc((c.argc + 1) * sizeof(char *));
+        // Change process group of child process
+        setpgid(0, 0);
+
+        deregister_child_signal_handlers();
+
+        // If it is a foreground process, change the foreground group
+        if (!bg) {
+            tcsetpgrp(STDIN_FILENO, getpgid(0));
+        }
+
+        char **argv = NULL;
+        argv = malloc((c.argc + 1) * sizeof(char *));
 
         // Copy command line arguments
-        for (int i = 0; i < c.argc; i++) {
-            argv[i] = c.argv[i];
+        for (int arg = 0; arg < c.argc; arg++) {
+            argv[arg] = strdup(c.argv[arg]);
+        }
+        if (bg) {
+            argv[c.argc - 1] = NULL;
         }
         argv[c.argc] = NULL;
 
         // Report if error is encounterd while spawning new process
+        // and clean up malloced memory.
         if (execvp(argv[0], argv) < 0) {
-            perror("");
+            // Cleanup
+            for (int arg = 0; arg < c.argc; arg++) {
+                free(argv[arg]);
+            }
+            free(argv[c.argc]);
+            free(argv);
+
+            // Print error
+            fprintf(stderr, "Error: command \"%s\" not found\n", c.argv[0]);
             return;
         }
     } else {
         // Parent process
-        waitpid(pid, NULL, 0);
+        // Change process group of child process
+        setpgid(pid, pid);
+        if (bg) {
+        } else {
+            int status;
+            // Wait for process to complete
+            tcsetpgrp(STDIN_FILENO, getpgid(pid));
+            waitpid(pid, &status, WUNTRACED);
+            tcsetpgrp(STDIN_FILENO, getpgid(0));
+        }
     }
 }
