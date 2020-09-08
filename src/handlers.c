@@ -3,6 +3,7 @@
 #include "../include/echo.h"
 #include "../include/exit.h"
 #include "../include/handlers.h"
+#include "../include/history.h"
 #include "../include/ls.h"
 #include "../include/pinfo.h"
 #include "../include/pcwd.h"
@@ -12,6 +13,7 @@ const char *builtin_cmds[] = {
     "cd",
     "echo",
     "exit",
+    "history",
     "ls",
     "pinfo",
     "pwd",
@@ -21,6 +23,7 @@ void (*handlers[]) (command c) = {
     cd,
     echo,
     sh_exit,
+    get_history,
     ls,
     pinfo,
     pcwd,

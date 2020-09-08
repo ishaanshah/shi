@@ -13,4 +13,6 @@ void trim_whitespaces(char *str);
 
 void print_prompt();
 
+void cleanup();
+
 #endif

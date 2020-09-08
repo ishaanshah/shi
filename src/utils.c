@@ -1,5 +1,6 @@
 #include "../include/common.h"
 #include "../include/constants.h"
+#include "../include/history.h"
 #include "../include/utils.h"
 
 void get_homedir(char *buf) {
@@ -105,4 +106,14 @@ void print_prompt() {
     fflush(stdout);
 
     free(cwd);
+}
+
+void cleanup() {
+    /* Cleanup before exiting */
+    char homedir[MAX_PATH_LEN];
+    char history_path[MAX_PATH_LEN];
+    get_homedir(homedir);
+    strcpy(history_path, homedir);
+    strcat(history_path, "/.shi_history");
+    save_history(history_path);
 }

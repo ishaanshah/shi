@@ -4,10 +4,16 @@
 #include "../include/types.h"
 
 int check_trailing_amp(command c) {
+    /* Check if the command has trailing &amp */
     return c.argv[c.argc-1][0] == '&' ? 1 : 0;
 }
 
 void execute(command c) {
+    /* Execute non inbuilt programs
+     *
+     * Args -
+     *  c: The command struct containing information about the command.
+     */
     pid_t pid = fork();
 
     // Error while creating a fork, show error message and exit

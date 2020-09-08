@@ -2,6 +2,7 @@
 #include "../include/constants.h"
 #include "../include/execute.h"
 #include "../include/handlers.h"
+#include "../include/history.h"
 #include "../include/shi.h"
 #include "../include/signal_handlers.h"
 #include "../include/types.h"
@@ -13,6 +14,16 @@ int main() {
 
     register_signal_handlers();
 
+    // Initialise history struct
+    char homedir[MAX_PATH_LEN];
+    char history_path[MAX_PATH_LEN];
+    get_homedir(homedir);
+    strcpy(history_path, homedir);
+    strcat(history_path, "/.shi_history");
+    init_history(history_path);
+
+    atexit(cleanup);
+
     // Struct to store information regarding the command
     struct command c = {0};
     c.argv = malloc(sizeof(char *) * MAX_ARG_COUNT);
@@ -22,8 +33,11 @@ int main() {
 
         // Read line, if response is -1, exit
         if (getline(&cmd_list, &cmd_len, stdin) < 0) {
-            exit(0);
+            break;
         };
+
+        // Add command to history
+        update_history(cmd_list);
 
         // Parse commands
         char *save_ptr[2];
