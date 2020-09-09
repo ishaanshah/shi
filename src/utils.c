@@ -83,7 +83,7 @@ void trim_whitespaces(char *str) {
     while (isspace(str[offset])) {
         offset++;
     }
-    strcpy(str, str + (offset * sizeof(char)));
+    memmove(str, &str[offset], strlen(str));
 
     // Trim trailing whitespaces
     int len = strlen(str);

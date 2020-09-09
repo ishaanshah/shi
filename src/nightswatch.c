@@ -114,7 +114,7 @@ void nightswatch(command c) {
     if (optind < c.argc) {
         if (strcmp("newborn", c.argv[optind]) == 0) {
             newborn(interval);
-        } else if (strcmp("interrupt", c.argv[optind])) {
+        } else if (strcmp("interrupt", c.argv[optind]) == 0) {
             interrupt(interval);
         } else {
             fprintf(stderr, "Error: Invalid subcommand, choose from \"newborn\" or \"interrupt\"\n");
