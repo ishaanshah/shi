@@ -5,6 +5,7 @@
 #include "../include/handlers.h"
 #include "../include/history.h"
 #include "../include/ls.h"
+#include "../include/nightswatch.h"
 #include "../include/pinfo.h"
 #include "../include/pcwd.h"
 #include "../include/types.h"
@@ -15,6 +16,7 @@ const char *builtin_cmds[] = {
     "exit",
     "history",
     "ls",
+    "nightswatch",
     "pinfo",
     "pwd",
 };
@@ -25,6 +27,7 @@ void (*handlers[]) (command c) = {
     sh_exit,
     get_history,
     ls,
+    nightswatch,
     pinfo,
     pcwd,
 };

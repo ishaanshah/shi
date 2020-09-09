@@ -72,6 +72,12 @@ const char *get_username() {
 }
 
 void trim_whitespaces(char *str) {
+    /* Trim leading and trailing whitespace, the passed string will be modified.
+     *
+     * Args -
+     *  str: The string to trim whitespaces from.
+     */
+
     // Trim leading whitespaces
     int offset = 0;
     while (isspace(str[offset])) {
@@ -116,4 +122,28 @@ void cleanup() {
     strcpy(history_path, homedir);
     strcat(history_path, "/.shi_history");
     save_history(history_path);
+}
+
+int key_pressed() {
+    /* Returns 1 if a key is pressed, otherwise returns 0 */
+    struct termios old_attr, new_attr;
+
+    // Store old properties
+    tcgetattr(STDIN_FILENO, &old_attr);
+
+    // Disable canonical mode
+    new_attr = old_attr;
+    new_attr.c_lflag &= ~(ICANON | ECHO);
+
+    // Change the terminal mode
+    tcsetattr(STDIN_FILENO, TCSANOW, &new_attr);
+
+    // Check if anything should be read
+    int bytes_to_read;
+    ioctl(STDIN_FILENO, FIONREAD, &bytes_to_read);
+
+    // Restore old properties
+    tcsetattr(STDIN_FILENO, TCSANOW, &old_attr);
+
+    return bytes_to_read > 0 ? 1 : 0;
 }

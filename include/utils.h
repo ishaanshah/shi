@@ -15,4 +15,6 @@ void print_prompt();
 
 void cleanup();
 
+int key_pressed();
+
 #endif
