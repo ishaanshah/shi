@@ -6,8 +6,8 @@
 #include "../include/history.h"
 #include "../include/ls.h"
 #include "../include/nightswatch.h"
-#include "../include/pinfo.h"
 #include "../include/pcwd.h"
+#include "../include/pinfo.h"
 #include "../include/types.h"
 
 const char *builtin_cmds[] = {
