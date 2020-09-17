@@ -19,6 +19,7 @@ const char *builtin_cmds[] = {
     "nightswatch",
     "pinfo",
     "pwd",
+    "quit",
 };
 
 void (*handlers[]) (command c) = {
@@ -30,6 +31,7 @@ void (*handlers[]) (command c) = {
     nightswatch,
     pinfo,
     pcwd,
+    sh_exit
 };
 
 const int string_to_handler_id(const char *cmd) {
