@@ -1,4 +1,5 @@
 #include "../include/common.h"
+#include "../include/constants.h"
 #include "../include/redirection.h"
 #include "../include/types.h"
 #include "../include/utils.h"
@@ -12,7 +13,8 @@ void redirect(char *input, char *output, int append) {
 
     if (input) {
         stdin_cpy = dup(STDIN_FILENO);
-        char *inp_file_path = strdup(input);
+        char inp_file_path[MAX_PATH_LEN];
+        strcpy(inp_file_path, input);
         replace_tilde(inp_file_path);
 
         // Open file to read input
@@ -27,12 +29,12 @@ void redirect(char *input, char *output, int append) {
         }
 
         close(inp_file);
-        free(inp_file_path);
     }
 
     if (output) {
         stdout_cpy = dup(STDOUT_FILENO);
-        char *out_file_path = strdup(output);
+        char out_file_path[MAX_PATH_LEN];
+        strcpy(out_file_path, output);
         replace_tilde(out_file_path);
 
         // Open file to read outut
@@ -52,7 +54,6 @@ void redirect(char *input, char *output, int append) {
         }
 
         close(out_file);
-        free(out_file_path);
     }
 }
 

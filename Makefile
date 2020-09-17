@@ -43,7 +43,7 @@ $(BDIR)/pcwd.o: $(SDIR)/pcwd.c $(IDIR)/pcwd.h $(IDIR)/common.h $(IDIR)/types.h
 $(BDIR)/pinfo.o: $(SDIR)/pinfo.c $(IDIR)/pinfo.h $(IDIR)/common.h $(IDIR)/constants.h $(IDIR)/types.h
 	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/pinfo.c -o $(BDIR)/pinfo.o
 
-$(BDIR)/redirection.o: $(SDIR)/redirection.c $(IDIR)/redirection.h $(IDIR)/common.h $(IDIR)/types.h $(IDIR)/utils.h
+$(BDIR)/redirection.o: $(SDIR)/redirection.c $(IDIR)/redirection.h $(IDIR)/common.h $(IDIR)/constants.h $(IDIR)/types.h $(IDIR)/utils.h
 	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/redirection.c -o $(BDIR)/redirection.o
 
 $(BDIR)/shi.o: $(SDIR)/shi.c $(IDIR)/shi.h $(IDIR)/common.h $(IDIR)/constants.h $(IDIR)/execute.h $(IDIR)/handlers.h $(IDIR)/history.h $(IDIR)/redirection.h $(IDIR)/signal_handlers.h $(IDIR)/types.h $(IDIR)/utils.h
