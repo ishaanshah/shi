@@ -43,7 +43,7 @@ void replace_with_tilde(char *path) {
 }
 
 void replace_tilde(char *path) {
-    /* Replace the tilde with home directory if needed. Overwrite the path variable
+    /* Replace the tilde with home directory if needed. Overwrites the path variable
      * passed.
      *
      * Args -

@@ -8,7 +8,7 @@ SDIR = src
 BDIR = _build
 
 # List of dependancies for compiling
-ALL_OBJECTS =  $(BDIR)/cd.o $(BDIR)/echo.o $(BDIR)/execute.o $(BDIR)/exit.o $(BDIR)/handlers.o $(BDIR)/history.o $(BDIR)/ls.o $(BDIR)/nightswatch.o $(BDIR)/pcwd.o $(BDIR)/pinfo.o $(BDIR)/shi.o $(BDIR)/signal_handlers.o $(BDIR)/utils.o
+ALL_OBJECTS =  $(BDIR)/cd.o $(BDIR)/echo.o $(BDIR)/execute.o $(BDIR)/exit.o $(BDIR)/handlers.o $(BDIR)/history.o $(BDIR)/ls.o $(BDIR)/nightswatch.o $(BDIR)/pcwd.o $(BDIR)/pinfo.o $(BDIR)/redirection.o $(BDIR)/shi.o $(BDIR)/signal_handlers.o $(BDIR)/utils.o
 
 build: $(ALL_OBJECTS)
 	$(CC) $(CFLAGS) -I$(IDIR) -o shi $(ALL_OBJECTS)
@@ -43,7 +43,10 @@ $(BDIR)/pcwd.o: $(SDIR)/pcwd.c $(IDIR)/pcwd.h $(IDIR)/common.h $(IDIR)/types.h
 $(BDIR)/pinfo.o: $(SDIR)/pinfo.c $(IDIR)/pinfo.h $(IDIR)/common.h $(IDIR)/constants.h $(IDIR)/types.h
 	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/pinfo.c -o $(BDIR)/pinfo.o
 
-$(BDIR)/shi.o: $(SDIR)/shi.c $(IDIR)/shi.h $(IDIR)/common.h $(IDIR)/constants.h $(IDIR)/execute.h $(IDIR)/handlers.h $(IDIR)/history.h $(IDIR)/signal_handlers.h $(IDIR)/types.h $(IDIR)/utils.h
+$(BDIR)/redirection.o: $(SDIR)/redirection.c $(IDIR)/redirection.h $(IDIR)/common.h $(IDIR)/types.h $(IDIR)/utils.h
+	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/redirection.c -o $(BDIR)/redirection.o
+
+$(BDIR)/shi.o: $(SDIR)/shi.c $(IDIR)/shi.h $(IDIR)/common.h $(IDIR)/constants.h $(IDIR)/execute.h $(IDIR)/handlers.h $(IDIR)/history.h $(IDIR)/redirection.h $(IDIR)/signal_handlers.h $(IDIR)/types.h $(IDIR)/utils.h
 	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/shi.c -o $(BDIR)/shi.o
 
 $(BDIR)/signal_handlers.o: $(SDIR)/signal_handlers.c $(IDIR)/signal_handlers.h $(IDIR)/common.h $(IDIR)/constants.h $(IDIR)/utils.h

@@ -3,6 +3,7 @@
 #include "../include/execute.h"
 #include "../include/handlers.h"
 #include "../include/history.h"
+#include "../include/redirection.h"
 #include "../include/shi.h"
 #include "../include/signal_handlers.h"
 #include "../include/types.h"
@@ -48,17 +49,53 @@ int main() {
             // Tokenise arguments
             char *cmd_arg = strtok_r(cmd, " \t", &save_ptr[1]);
 
-            // Initialise argc to 0
+            // Initialise argc to 0 and input, output filepaths to NULL
             c.argc = 0;
+            char *input = NULL;
+            char *output = NULL;
+            int append = 0;
             while (cmd_arg != NULL) {
-                // Acquire necessary memory to store the argument
-                c.argv[c.argc] = malloc(sizeof(char) * (strlen(cmd_arg) + 1));
-                strcpy(c.argv[c.argc], cmd_arg);
-                c.argc += 1;
+                // Check if redirection operators are present
+                if (strcmp(cmd_arg, ">") == 0) {
+                    // Get file name
+                    cmd_arg = strtok_r(NULL, " \t", &save_ptr[1]);
+                    if (cmd_arg == NULL) {
+                        fprintf(stderr, "Error: Output file path not provided, defaulting to STDOUT\n");
+                        break;
+                    }
+                    output = malloc(sizeof(char *) * (strlen(cmd_arg) + 1));
+                    strcpy(output, cmd_arg);
+                } else if(strcmp(cmd_arg, ">>") == 0) {
+                    // Get file name
+                    cmd_arg = strtok_r(NULL, " \t", &save_ptr[1]);
+                    if (cmd_arg == NULL) {
+                        fprintf(stderr, "Error: Output file path not provided, defaulting to STDOUT\n");
+                        break;
+                    }
+                    output = malloc(sizeof(char *) * (strlen(cmd_arg) + 1));
+                    strcpy(output, cmd_arg);
+                    append = 1;
+                } else if (!output && strcmp(cmd_arg, "<") == 0) {
+                    // Get file name
+                    cmd_arg = strtok_r(NULL, " \t", &save_ptr[1]);
+                    if (cmd_arg == NULL) {
+                        fprintf(stderr, "Error: Input file path not provided, defaulting to STDIN\n");
+                        break;
+                    }
+                    input = malloc(sizeof(char *) * (strlen(cmd_arg) + 1));
+                    strcpy(input, cmd_arg);
+                } else {
+                    // Acquire necessary memory to store the argument
+                    c.argv[c.argc] = malloc(sizeof(char) * (strlen(cmd_arg) + 1));
+                    strcpy(c.argv[c.argc], cmd_arg);
+                    c.argc += 1;
+                }
 
                 // Fetch next argument
                 cmd_arg = strtok_r(NULL, " \t", &save_ptr[1]);
             }
+
+            redirect(input, output, append);
 
             if (c.argc > 0) {
                 int handler_id = string_to_handler_id(c.argv[0]);
@@ -69,9 +106,17 @@ int main() {
                 }
             }
 
+            restore_redirect();
+
             // Free up memory to avoid memory leaks
             for (int arg = 0; arg < c.argc; arg++) {
                 free(c.argv[arg]);
+            }
+            if (input) {
+                free(input);
+            }
+            if (output) {
+                free(output);
             }
 
             // Fetch next command
