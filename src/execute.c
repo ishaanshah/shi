@@ -1,5 +1,6 @@
 #include "../include/common.h"
 #include "../include/execute.h"
+#include "../include/proc_list.h"
 #include "../include/signal_handlers.h"
 #include "../include/types.h"
 
@@ -67,6 +68,7 @@ void execute(command c) {
         // Change process group of child process
         setpgid(pid, pid);
         if (bg) {
+            insert_process(pid);
         } else {
             int status;
             // Wait for process to complete

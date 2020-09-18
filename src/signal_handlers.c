@@ -1,5 +1,6 @@
 #include "../include/common.h"
 #include "../include/constants.h"
+#include "../include/proc_list.h"
 #include "../include/signal_handlers.h"
 #include "../include/utils.h"
 
@@ -55,6 +56,10 @@ void zombie_killer(int signal, siginfo_t *info, void *context) {
                 proc_name, pid,
                 !info->si_status ? "normally" : "abnormally");
         write(STDERR_FILENO, buf, strlen(buf));
+        // Remove the process from list if it has terminated
+        if (WIFEXITED(status)) {
+            delete_process(pid);
+        }
         print_prompt();
     }
 }
