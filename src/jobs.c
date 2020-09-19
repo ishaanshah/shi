@@ -5,6 +5,11 @@
 #include "../include/types.h"
 
 void jobs(command c) {
+    /* Print list of all running backround jobs.
+     *
+     * Args -
+     *  c: The command struct containing information about the command.
+     */ 
     process *proc = proc_list;
     while (proc) {
         char proc_stat_path[MAX_PATH_LEN];

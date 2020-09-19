@@ -10,6 +10,8 @@ void insert_process(pid_t pid);
 
 void delete_process(pid_t pid);
 
+void free_proc_list();
+
 process *get_next_process(process *p);
 
 #endif

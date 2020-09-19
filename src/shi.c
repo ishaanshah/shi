@@ -3,6 +3,7 @@
 #include "../include/execute.h"
 #include "../include/handlers.h"
 #include "../include/history.h"
+#include "../include/proc_list.h"
 #include "../include/redirection.h"
 #include "../include/shi.h"
 #include "../include/signal_handlers.h"
@@ -126,6 +127,7 @@ int main() {
     }
 
     // Cleanup
+    free_proc_list();
     free(c.argv);
     free(cmd_list);
 
