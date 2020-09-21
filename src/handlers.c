@@ -8,6 +8,7 @@
 #include "../include/kjob.h"
 #include "../include/ls.h"
 #include "../include/nightswatch.h"
+#include "../include/overkill.h"
 #include "../include/pcwd.h"
 #include "../include/pinfo.h"
 #include "../include/types.h"
@@ -21,6 +22,7 @@ const char *builtin_cmds[] = {
     "kjob",
     "ls",
     "nightswatch",
+    "overkill",
     "pinfo",
     "pwd",
     "quit",
@@ -35,6 +37,7 @@ void (*handlers[]) (command c) = {
     kjob,
     ls,
     nightswatch,
+    overkill,
     pinfo,
     pcwd,
     sh_exit
