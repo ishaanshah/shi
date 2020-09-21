@@ -13,6 +13,7 @@
 #include "../include/pinfo.h"
 #include "../include/setenv.h"
 #include "../include/types.h"
+#include "../include/unsetenv.h"
 
 const char *builtin_cmds[] = {
     "cd",
@@ -26,8 +27,9 @@ const char *builtin_cmds[] = {
     "overkill",
     "pinfo",
     "pwd",
-    "setenv",
     "quit",
+    "setenv",
+    "unsetenv",
 };
 
 void (*handlers[]) (command c) = {
@@ -42,8 +44,9 @@ void (*handlers[]) (command c) = {
     overkill,
     pinfo,
     pcwd,
+    sh_exit,
     sh_setenv,
-    sh_exit
+    sh_unsetenv
 };
 
 const int string_to_handler_id(const char *cmd) {

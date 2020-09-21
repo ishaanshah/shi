@@ -8,7 +8,7 @@ SDIR = src
 BDIR = _build
 
 # List of dependancies for compiling
-ALL_OBJECTS =  $(BDIR)/cd.o $(BDIR)/echo.o $(BDIR)/execute.o $(BDIR)/exit.o $(BDIR)/handlers.o $(BDIR)/history.o $(BDIR)/jobs.o $(BDIR)/kjob.o $(BDIR)/ls.o $(BDIR)/nightswatch.o $(BDIR)/overkill.o $(BDIR)/pcwd.o $(BDIR)/pinfo.o $(BDIR)/proc_list.o $(BDIR)/redirection.o $(BDIR)/shi.o $(BDIR)/signal_handlers.o $(BDIR)/setenv.o $(BDIR)/utils.o
+ALL_OBJECTS =  $(BDIR)/cd.o $(BDIR)/echo.o $(BDIR)/execute.o $(BDIR)/exit.o $(BDIR)/handlers.o $(BDIR)/history.o $(BDIR)/jobs.o $(BDIR)/kjob.o $(BDIR)/ls.o $(BDIR)/nightswatch.o $(BDIR)/overkill.o $(BDIR)/pcwd.o $(BDIR)/pinfo.o $(BDIR)/proc_list.o $(BDIR)/redirection.o $(BDIR)/shi.o $(BDIR)/signal_handlers.o $(BDIR)/setenv.o $(BDIR)/unsetenv.o $(BDIR)/utils.o
 
 build: $(ALL_OBJECTS)
 	$(CC) $(CFLAGS) -I$(IDIR) -o shi $(ALL_OBJECTS)
@@ -25,7 +25,7 @@ $(BDIR)/execute.o: $(SDIR)/execute.c $(IDIR)/execute.h $(IDIR)/common.h $(IDIR)/
 $(BDIR)/exit.o: $(SDIR)/exit.c $(IDIR)/exit.h $(IDIR)/common.h $(IDIR)/types.h
 	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/exit.c -o $(BDIR)/exit.o
 
-$(BDIR)/handlers.o: $(SDIR)/handlers.c $(IDIR)/handlers.h $(IDIR)/cd.h $(IDIR)/common.h $(IDIR)/echo.h $(IDIR)/exit.h $(IDIR)/history.h $(IDIR)/jobs.h $(IDIR)/kjob.h $(IDIR)/ls.h $(IDIR)/nightswatch.h $(IDIR)/overkill.h $(IDIR)/pcwd.h $(IDIR)/pinfo.h $(IDIR)/setenv.h $(IDIR)/types.h
+$(BDIR)/handlers.o: $(SDIR)/handlers.c $(IDIR)/handlers.h $(IDIR)/cd.h $(IDIR)/common.h $(IDIR)/echo.h $(IDIR)/exit.h $(IDIR)/history.h $(IDIR)/jobs.h $(IDIR)/kjob.h $(IDIR)/ls.h $(IDIR)/nightswatch.h $(IDIR)/overkill.h $(IDIR)/pcwd.h $(IDIR)/pinfo.h $(IDIR)/setenv.h $(IDIR)/types.h $(IDIR)/unsetenv.h
 	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/handlers.c -o $(BDIR)/handlers.o
 
 $(BDIR)/history.o: $(SDIR)/history.c $(IDIR)/history.h $(IDIR)/common.h $(IDIR)/constants.h $(IDIR)/types.h $(IDIR)/utils.h
@@ -66,6 +66,9 @@ $(BDIR)/shi.o: $(SDIR)/shi.c $(IDIR)/shi.h $(IDIR)/common.h $(IDIR)/constants.h 
 
 $(BDIR)/signal_handlers.o: $(SDIR)/signal_handlers.c $(IDIR)/signal_handlers.h $(IDIR)/common.h $(IDIR)/constants.h $(IDIR)/proc_list.h $(IDIR)/utils.h
 	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/signal_handlers.c -o $(BDIR)/signal_handlers.o
+
+$(BDIR)/unsetenv.o: $(SDIR)/unsetenv.c $(IDIR)/unsetenv.h $(IDIR)/common.h $(IDIR)/types.h
+	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/unsetenv.c -o $(BDIR)/unsetenv.o
 
 $(BDIR)/utils.o: $(SDIR)/utils.c $(IDIR)/utils.h $(IDIR)/common.h $(IDIR)/constants.h $(IDIR)/history.h
 	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/utils.c -o $(BDIR)/utils.o
