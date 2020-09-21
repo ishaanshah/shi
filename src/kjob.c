@@ -6,7 +6,7 @@
 void kjob(command c) {
     /* Send a signal to a particular process
      *
-     * Args - 
+     * Args -
      *  c: The command struct containing information about the command.
      */
 

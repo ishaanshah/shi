@@ -2,6 +2,7 @@
 #include "../include/common.h"
 #include "../include/echo.h"
 #include "../include/exit.h"
+#include "../include/fg.h"
 #include "../include/handlers.h"
 #include "../include/history.h"
 #include "../include/jobs.h"
@@ -19,6 +20,7 @@ const char *builtin_cmds[] = {
     "cd",
     "echo",
     "exit",
+    "fg",
     "history",
     "jobs",
     "kjob",
@@ -36,6 +38,7 @@ void (*handlers[]) (command c) = {
     cd,
     echo,
     sh_exit,
+    fg,
     get_history,
     jobs,
     kjob,

@@ -3,7 +3,7 @@
 
 #include "./types.h"
 
-#define NUM_OF_BUILTINS 14
+#define NUM_OF_BUILTINS 15
 
 extern const char *builtin_cmds[];
 
