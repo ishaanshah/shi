@@ -70,11 +70,20 @@ void execute(command c) {
         if (bg) {
             insert_process(pid);
         } else {
-            int status;
-            // Wait for process to complete
+            // Change foreground group
             tcsetpgrp(STDIN_FILENO, getpgid(pid));
+
+            // Wait for process to complete
+            int status;
             waitpid(pid, &status, WUNTRACED);
+
+            // Restore foreground group
             tcsetpgrp(STDIN_FILENO, getpgid(0));
+
+            // Insert in bg process list if process is stopped
+            if (WIFSTOPPED(status)) {
+                insert_process(pid);
+            }
         }
     }
 }
