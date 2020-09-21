@@ -11,6 +11,7 @@
 #include "../include/overkill.h"
 #include "../include/pcwd.h"
 #include "../include/pinfo.h"
+#include "../include/setenv.h"
 #include "../include/types.h"
 
 const char *builtin_cmds[] = {
@@ -25,6 +26,7 @@ const char *builtin_cmds[] = {
     "overkill",
     "pinfo",
     "pwd",
+    "setenv",
     "quit",
 };
 
@@ -40,6 +42,7 @@ void (*handlers[]) (command c) = {
     overkill,
     pinfo,
     pcwd,
+    sh_setenv,
     sh_exit
 };
 

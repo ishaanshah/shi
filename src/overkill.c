@@ -11,6 +11,7 @@ void overkill(command c) {
      */
     if (c.argc > 1) {
         fprintf(stderr, "Too many arguments\n");
+        return;;
     }
 
     while (proc_list) {
