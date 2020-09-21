@@ -24,15 +24,6 @@ void jobs(command c) {
         comm[strlen(comm)-1] = '\0';
 
         switch(status_code) {
-            case 'R':
-               status = strdup("Running");
-               break;
-            case 'S':
-               status = strdup("Sleeping");
-               break;
-            case 'D':
-               status = strdup("Waiting");
-               break;
             case 'T':
                status = strdup("Stopped");
                break;
@@ -40,7 +31,7 @@ void jobs(command c) {
                status = strdup("Zombie");
                break;
             default:
-               status = strdup("Status Unknown");
+               status = strdup("Running");
                break;
         }
 
