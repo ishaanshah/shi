@@ -1,3 +1,4 @@
+#include "../include/bg.h"
 #include "../include/cd.h"
 #include "../include/common.h"
 #include "../include/echo.h"
@@ -17,6 +18,7 @@
 #include "../include/unsetenv.h"
 
 const char *builtin_cmds[] = {
+    "bg",
     "cd",
     "echo",
     "exit",
@@ -35,6 +37,7 @@ const char *builtin_cmds[] = {
 };
 
 void (*handlers[]) (command c) = {
+    bg,
     cd,
     echo,
     sh_exit,

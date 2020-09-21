@@ -1,15 +1,9 @@
+#include "../include/bg.h"
 #include "../include/common.h"
-#include "../include/fg.h"
 #include "../include/proc_list.h"
 #include "../include/types.h"
 
-void fg(command c) {
-    /* Bring a background job to foreground.
-     *
-     * Args -
-     *  c: The command struct containing information about the command.
-     */
-
+void bg(command c) {
     // Check if correct number of arguments are provided
     if(c.argc > 2) {
         fprintf(stderr, "Too many arguments\n");
@@ -32,28 +26,9 @@ void fg(command c) {
         fprintf(stderr, "Invalid job ID\n");
         return;
     }
-    pid_t pid = proc->pid;
-
-    // Change foreground process group
-    tcsetpgrp(STDIN_FILENO, getpgid(pid));
 
     // Send SIGCONT to process group
-    if (kill(pid, SIGCONT) < 0) {
+    if (kill(proc->pid, SIGCONT) < 0) {
         perror("fg");
-    }
-
-    // Delete the process from bg process list
-    delete_process(pid);
-
-    // Wait for process to complete
-    int status;
-    waitpid(pid, &status, WUNTRACED);
-
-    // Restore foreground process group
-    tcsetpgrp(STDIN_FILENO, getpgid(0));
-
-    // Reinsert process if it's sent to background again
-    if (WIFSTOPPED(status)) {
-        insert_process(pid);
     }
 }

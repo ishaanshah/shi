@@ -8,10 +8,13 @@ SDIR = src
 BDIR = _build
 
 # List of dependancies for compiling
-ALL_OBJECTS =  $(BDIR)/cd.o $(BDIR)/echo.o $(BDIR)/execute.o $(BDIR)/exit.o $(BDIR)/fg.o $(BDIR)/handlers.o $(BDIR)/history.o $(BDIR)/jobs.o $(BDIR)/kjob.o $(BDIR)/ls.o $(BDIR)/nightswatch.o $(BDIR)/overkill.o $(BDIR)/pcwd.o $(BDIR)/pinfo.o $(BDIR)/proc_list.o $(BDIR)/redirection.o $(BDIR)/shi.o $(BDIR)/signal_handlers.o $(BDIR)/setenv.o $(BDIR)/unsetenv.o $(BDIR)/utils.o
+ALL_OBJECTS = $(BDIR)/bg.o $(BDIR)/cd.o $(BDIR)/echo.o $(BDIR)/execute.o $(BDIR)/exit.o $(BDIR)/fg.o $(BDIR)/handlers.o $(BDIR)/history.o $(BDIR)/jobs.o $(BDIR)/kjob.o $(BDIR)/ls.o $(BDIR)/nightswatch.o $(BDIR)/overkill.o $(BDIR)/pcwd.o $(BDIR)/pinfo.o $(BDIR)/proc_list.o $(BDIR)/redirection.o $(BDIR)/shi.o $(BDIR)/signal_handlers.o $(BDIR)/setenv.o $(BDIR)/unsetenv.o $(BDIR)/utils.o
 
 build: $(ALL_OBJECTS)
 	$(CC) $(CFLAGS) -I$(IDIR) -o shi $(ALL_OBJECTS)
+
+$(BDIR)/bg.o: $(SDIR)/bg.c $(IDIR)/bg.h $(IDIR)/common.h $(IDIR)/proc_list.h $(IDIR)/types.h
+	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/bg.c -o $(BDIR)/bg.o
 
 $(BDIR)/cd.o: $(SDIR)/cd.c $(IDIR)/cd.h $(IDIR)/common.h $(IDIR)/constants.h $(IDIR)/types.h $(IDIR)/utils.h
 	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/cd.c -o $(BDIR)/cd.o
@@ -28,7 +31,7 @@ $(BDIR)/exit.o: $(SDIR)/exit.c $(IDIR)/exit.h $(IDIR)/common.h $(IDIR)/types.h
 $(BDIR)/fg.o: $(SDIR)/fg.c $(IDIR)/fg.h $(IDIR)/common.h $(IDIR)/proc_list.h $(IDIR)/types.h
 	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/fg.c -o $(BDIR)/fg.o
 
-$(BDIR)/handlers.o: $(SDIR)/handlers.c $(IDIR)/handlers.h $(IDIR)/cd.h $(IDIR)/common.h $(IDIR)/echo.h $(IDIR)/exit.h $(IDIR)/fg.h $(IDIR)/history.h $(IDIR)/jobs.h $(IDIR)/kjob.h $(IDIR)/ls.h $(IDIR)/nightswatch.h $(IDIR)/overkill.h $(IDIR)/pcwd.h $(IDIR)/pinfo.h $(IDIR)/setenv.h $(IDIR)/types.h $(IDIR)/unsetenv.h
+$(BDIR)/handlers.o: $(SDIR)/handlers.c $(IDIR)/handlers.h $(IDIR)/bg.h $(IDIR)/cd.h $(IDIR)/common.h $(IDIR)/echo.h $(IDIR)/exit.h $(IDIR)/fg.h $(IDIR)/history.h $(IDIR)/jobs.h $(IDIR)/kjob.h $(IDIR)/ls.h $(IDIR)/nightswatch.h $(IDIR)/overkill.h $(IDIR)/pcwd.h $(IDIR)/pinfo.h $(IDIR)/setenv.h $(IDIR)/types.h $(IDIR)/unsetenv.h
 	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/handlers.c -o $(BDIR)/handlers.o
 
 $(BDIR)/history.o: $(SDIR)/history.c $(IDIR)/history.h $(IDIR)/common.h $(IDIR)/constants.h $(IDIR)/types.h $(IDIR)/utils.h
