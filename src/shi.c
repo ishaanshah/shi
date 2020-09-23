@@ -1,10 +1,7 @@
 #include "../include/common.h"
 #include "../include/constants.h"
-#include "../include/execute.h"
-#include "../include/handlers.h"
 #include "../include/history.h"
-#include "../include/proc_list.h"
-#include "../include/redirection.h"
+#include "../include/pipeline.h"
 #include "../include/shi.h"
 #include "../include/signal_handlers.h"
 #include "../include/types.h"
@@ -26,6 +23,10 @@ int main() {
 
     atexit(cleanup);
 
+    // Struct to store information regarding the pipe
+    struct pipeline p = {0};
+    p.cmdv = malloc(sizeof(command) * MAX_PIPE_COUNT);
+
     // Struct to store information regarding the command
     struct command c = {0};
     c.argv = malloc(sizeof(char *) * MAX_ARG_COUNT);
@@ -41,94 +42,100 @@ int main() {
         // Add command to history
         update_history(cmd_list);
 
-        // Parse commands
-        char *save_ptr[2];
-        char *cmd = strtok_r(cmd_list, ";", &save_ptr[0]);
-        while (cmd != NULL) {
-            trim_whitespaces(cmd);
+        // Parse pipeline of commands
+        char *save_ptr[3];
+        char *pipeline = strtok_r(cmd_list, ";", &save_ptr[0]);
+        while (pipeline != NULL) {
+            trim_whitespaces(pipeline);
 
-            // Tokenise arguments
-            char *cmd_arg = strtok_r(cmd, " \t", &save_ptr[1]);
+            // Initialise cmdc to 0
+            p.cmdc = 0;
 
-            // Initialise argc to 0 and input, output filepaths to NULL
-            c.argc = 0;
-            char *input = NULL;
-            char *output = NULL;
-            int append = 0;
-            while (cmd_arg != NULL) {
-                // Check if redirection operators are present
-                if (strcmp(cmd_arg, ">") == 0) {
-                    // Get file name
-                    cmd_arg = strtok_r(NULL, " \t", &save_ptr[1]);
-                    if (cmd_arg == NULL) {
-                        fprintf(stderr, "Error: Output file path not provided, defaulting to STDOUT\n");
-                        break;
+            // Tokenise commands
+            char *cmd = strtok_r(pipeline, "|", &save_ptr[1]);
+            while (cmd != NULL) {
+                trim_whitespaces(cmd);
+
+                // Tokenise arguments
+                char *cmd_arg = strtok_r(cmd, " \t", &save_ptr[2]);
+
+                // Initialise argc to 0 and input/output to empty strings
+                c.argc = 0;
+                c.append = 0;
+                c.input[0] = '\0';
+                c.output[0] = '\0';
+                while (cmd_arg != NULL) {
+                    // Check if redirection operators are present
+                    if (strcmp(cmd_arg, ">") == 0) {
+                        // Get file name
+                        cmd_arg = strtok_r(NULL, " \t", &save_ptr[2]);
+                        if (cmd_arg == NULL) {
+                            fprintf(stderr, "Error: Output file path not provided, defaulting to STDOUT\n");
+                            break;
+                        }
+                        strcpy(c.output, cmd_arg);
+                    } else if(strcmp(cmd_arg, ">>") == 0) {
+                        // Get file name
+                        cmd_arg = strtok_r(NULL, " \t", &save_ptr[2]);
+                        if (cmd_arg == NULL) {
+                            fprintf(stderr, "Error: Output file path not provided, defaulting to STDOUT\n");
+                            break;
+                        }
+                        strcpy(c.output, cmd_arg);
+                        c.append = 1;
+                    } else if (!strlen(c.output) && strcmp(cmd_arg, "<") == 0) {
+                        // Get file name
+                        cmd_arg = strtok_r(NULL, " \t", &save_ptr[2]);
+                        if (cmd_arg == NULL) {
+                            fprintf(stderr, "Error: Input file path not provided, defaulting to STDIN\n");
+                            break;
+                        }
+                        strcpy(c.input, cmd_arg);
+                    } else {
+                        // Acquire necessary memory to store the argument
+                        c.argv[c.argc] = strdup(cmd_arg);
+                        c.argc += 1;
                     }
-                    output = malloc(sizeof(char *) * (strlen(cmd_arg) + 1));
-                    strcpy(output, cmd_arg);
-                } else if(strcmp(cmd_arg, ">>") == 0) {
-                    // Get file name
-                    cmd_arg = strtok_r(NULL, " \t", &save_ptr[1]);
-                    if (cmd_arg == NULL) {
-                        fprintf(stderr, "Error: Output file path not provided, defaulting to STDOUT\n");
-                        break;
-                    }
-                    output = malloc(sizeof(char *) * (strlen(cmd_arg) + 1));
-                    strcpy(output, cmd_arg);
-                    append = 1;
-                } else if (!output && strcmp(cmd_arg, "<") == 0) {
-                    // Get file name
-                    cmd_arg = strtok_r(NULL, " \t", &save_ptr[1]);
-                    if (cmd_arg == NULL) {
-                        fprintf(stderr, "Error: Input file path not provided, defaulting to STDIN\n");
-                        break;
-                    }
-                    input = malloc(sizeof(char *) * (strlen(cmd_arg) + 1));
-                    strcpy(input, cmd_arg);
-                } else {
-                    // Acquire necessary memory to store the argument
-                    c.argv[c.argc] = malloc(sizeof(char) * (strlen(cmd_arg) + 1));
-                    strcpy(c.argv[c.argc], cmd_arg);
-                    c.argc += 1;
+
+                    // Fetch next argument
+                    cmd_arg = strtok_r(NULL, " \t", &save_ptr[2]);
                 }
 
-                // Fetch next argument
-                cmd_arg = strtok_r(NULL, " \t", &save_ptr[1]);
-            }
+                // Copy data command data topipeline pipeline
+                p.cmdv[p.cmdc].argc = c.argc;
+                p.cmdv[p.cmdc].argv = malloc(sizeof(char *) * c.argc);
+                p.cmdv[p.cmdc].append = c.append;
+                strcpy(p.cmdv[p.cmdc].input, c.input);
+                strcpy(p.cmdv[p.cmdc].output, c.output);
 
-            redirect(input, output, append);
-
-            if (c.argc > 0) {
-                int handler_id = string_to_handler_id(c.argv[0]);
-                if (handler_id < 0) {
-                    execute(c);
-                } else {
-                    handlers[handler_id](c);
+                // Free up memory to avoid memory leaks
+                for (int arg = 0; arg < c.argc; arg++) {
+                    p.cmdv[p.cmdc].argv[arg] = strdup(c.argv[arg]);
+                    free(c.argv[arg]);
                 }
-            }
+                p.cmdc += 1;
 
-            restore_redirect();
+                // Fetch next command
+                cmd = strtok_r(NULL, "|", &save_ptr[1]);
+            }
+            exec_pipeline(p);
 
             // Free up memory to avoid memory leaks
-            for (int arg = 0; arg < c.argc; arg++) {
-                free(c.argv[arg]);
-            }
-            if (input) {
-                free(input);
-            }
-            if (output) {
-                free(output);
+            for (int cmd_idx = 0; cmd_idx < p.cmdc; cmd_idx++) {
+                for (int arg = 0; arg < p.cmdv[cmd_idx].argc; arg++) {
+                    free(p.cmdv[cmd_idx].argv[arg]);
+                }
+                free(p.cmdv[cmd_idx].argv);
             }
 
-            // Fetch next command
-            cmd = strtok_r(NULL, ";", &save_ptr[0]);
+            // Fetch next pipeline of commands
+            pipeline = strtok_r(NULL, ";", &save_ptr[0]);
         }
-
     }
 
     // Cleanup
-    free_proc_list();
     free(c.argv);
+    free(p.cmdv);
     free(cmd_list);
 
     return 0;

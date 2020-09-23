@@ -11,4 +11,6 @@
 
 #define MAX_CMD_LEN 4096
 
+#define MAX_PIPE_COUNT 1024
+
 #endif

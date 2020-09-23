@@ -7,6 +7,9 @@
 typedef struct command {
     int argc;
     char **argv;
+    char input[MAX_PATH_LEN];
+    char output[MAX_PATH_LEN];
+    int append;
 } command;
 
 typedef struct history {
@@ -19,5 +22,10 @@ typedef struct process {
     int job_id;
     pid_t pid;
 } process;
+
+typedef struct pipeline {
+    int cmdc;
+    command *cmdv;
+} pipeline;
 
 #endif

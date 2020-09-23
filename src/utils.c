@@ -1,6 +1,7 @@
 #include "../include/common.h"
 #include "../include/constants.h"
 #include "../include/history.h"
+#include "../include/proc_list.h"
 #include "../include/utils.h"
 
 void get_homedir(char *buf) {
@@ -122,6 +123,7 @@ void cleanup() {
     strcpy(history_path, homedir);
     strcat(history_path, "/.shi_history");
     save_history(history_path);
+    free_proc_list();
 }
 
 int key_pressed() {

@@ -11,7 +11,7 @@ void redirect(char *input, char *output, int append) {
     stdin_cpy = -1;
     stdout_cpy = -1;
 
-    if (input) {
+    if (strlen(input)) {
         stdin_cpy = dup(STDIN_FILENO);
         char inp_file_path[MAX_PATH_LEN];
         strcpy(inp_file_path, input);
@@ -31,7 +31,7 @@ void redirect(char *input, char *output, int append) {
         close(inp_file);
     }
 
-    if (output) {
+    if (strlen(output)) {
         stdout_cpy = dup(STDOUT_FILENO);
         char out_file_path[MAX_PATH_LEN];
         strcpy(out_file_path, output);
