@@ -61,7 +61,7 @@ void execute(command c) {
 
             // Print error
             fprintf(stderr, "Error: command \"%s\" not found\n", c.argv[0]);
-            return;
+            exit(0);
         }
     } else {
         // Parent process

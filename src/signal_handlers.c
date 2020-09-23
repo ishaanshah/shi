@@ -58,7 +58,9 @@ void zombie_killer(int signal, siginfo_t *info, void *context) {
         write(STDERR_FILENO, buf, strlen(buf));
         // Remove the process from list if it has terminated
         delete_process(pid);
-        print_prompt();
+        if (WIFEXITED(status)) {
+            print_prompt();
+        }
     }
 }
 

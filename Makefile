@@ -58,7 +58,7 @@ $(BDIR)/pcwd.o: $(SDIR)/pcwd.c $(IDIR)/pcwd.h $(IDIR)/common.h $(IDIR)/types.h
 $(BDIR)/pinfo.o: $(SDIR)/pinfo.c $(IDIR)/pinfo.h $(IDIR)/common.h $(IDIR)/constants.h $(IDIR)/types.h
 	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/pinfo.c -o $(BDIR)/pinfo.o
 
-$(BDIR)/pipeline.o: $(SDIR)/pipeline.c $(IDIR)/pinfo.h $(IDIR)/common.h $(BDIR)/constants.h $(IDIR)/execute.h $(IDIR)/handlers.h $(IDIR)/redirection.h $(IDIR)/types.h
+$(BDIR)/pipeline.o: $(SDIR)/pipeline.c $(IDIR)/pinfo.h $(IDIR)/common.h $(IDIR)/constants.h $(IDIR)/execute.h $(IDIR)/handlers.h $(IDIR)/redirection.h $(IDIR)/types.h
 	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/pipeline.c -o $(BDIR)/pipeline.o
 
 $(BDIR)/proc_list.o: $(SDIR)/proc_list.c $(IDIR)/proc_list.h $(IDIR)/common.h $(IDIR)/types.h
