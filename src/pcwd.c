@@ -19,4 +19,7 @@ void pcwd(command c) {
     char *cwd;
     cwd = getcwd(NULL, 0);
     printf("%s\n", cwd);
+
+    // Cleanup to avoid memory leaks
+    free(cwd);
 }
