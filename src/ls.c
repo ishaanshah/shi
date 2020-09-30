@@ -38,6 +38,7 @@ void list_directory(const char *path, const int aflag, const int lflag) {
         if (lflag) {
             char buf[MAX_PATH_LEN];
             strcpy(buf, path);
+            strcat(buf, "/");
             strcat(buf, namelist[idx] -> d_name);
 
             // Get information about the directory
