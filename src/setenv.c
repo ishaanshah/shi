@@ -5,17 +5,19 @@
 void sh_setenv(command c) {
     /* Set environment variables.
      *
-     * Args - 
+     * Args -
      *  c: The command struct containing information about the command.
      */
 
     // Check if valid number of arguments are provided
     if (c.argc > 3) {
         fprintf(stderr, "Too many arguments\n");
+        exit_status = 1;
         return;
     }
     if (c.argc < 2) {
         fprintf(stderr, "Too few arguments\n");
+        exit_status = 1;
         return;
     }
 
@@ -30,5 +32,6 @@ void sh_setenv(command c) {
     // Check if setenv was successfull
     if (result < 0) {
         perror("setenv");
+        exit_status = 1;
     }
 }

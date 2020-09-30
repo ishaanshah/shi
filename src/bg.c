@@ -7,9 +7,11 @@ void bg(command c) {
     // Check if correct number of arguments are provided
     if(c.argc > 2) {
         fprintf(stderr, "Too many arguments\n");
+        exit_status = 1;
         return;
     } else if(c.argc < 2) {
         fprintf(stderr, "Too few arguments\n");
+        exit_status = 1;
         return;
     }
 
@@ -24,11 +26,13 @@ void bg(command c) {
     }
     if (!proc) {
         fprintf(stderr, "Invalid job ID\n");
+        exit_status = 1;
         return;
     }
 
     // Send SIGCONT to process group
     if (kill(proc->pid, SIGCONT) < 0) {
         perror("fg");
+        exit_status = 1;
     }
 }

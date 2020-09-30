@@ -40,10 +40,12 @@ void get_history(command c) {
 
     if (cnt > MAX_HISTORY_RTR_SIZE) {
         fprintf(stderr, "Error: Max number of history entries is 10\n");
+        exit_status = 1;
         return;
     }
     if (cnt < 0) {
         fprintf(stderr, "Error: Count should be positive number\n");
+        exit_status = 1;
         return;
     }
 

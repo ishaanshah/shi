@@ -7,6 +7,7 @@ void pinfo(command c) {
     // Check for excess args
     if (c.argc > 2) {
         fprintf(stderr, "Too many arguments\n");
+        exit_status = 1;
         return;
     }
 
@@ -27,6 +28,7 @@ void pinfo(command c) {
         closedir(dir);
     } else if (ENOENT == errno) {
         fprintf(stderr, "Invalid PID\n");
+        exit_status = 1;
         return;
     }
 
@@ -43,7 +45,8 @@ void pinfo(command c) {
         printf("PID -- %d\n", pid);
         printf("Process Status -- %c\n", state);
     } else {
-        perror("Error while reading process info");
+        perror("pinfo");
+        exit_status = 1;
         return;
     }
     fclose(p_stat);
@@ -59,7 +62,8 @@ void pinfo(command c) {
         // Print retrieved data
         printf("Memory -- %d\n", proc_size);
     } else {
-        perror("Error while reading process info");
+        perror("pinfo");
+        exit_status = 1;
         return;
     }
     fclose(p_statm);
@@ -69,7 +73,8 @@ void pinfo(command c) {
     char exe_path[MAX_PATH_LEN];
     ssize_t bytes_written = readlink(proc_exe_path, exe_path, MAX_PATH_LEN);
     if (bytes_written < 0) {
-        perror("Error while reading process info");
+        perror("pinfo");
+        exit_status = 1;
         return;
     }
     exe_path[bytes_written] = '\0';

@@ -16,6 +16,7 @@ void cd(command c) {
     // Check for excess args
     if (c.argc > 2) {
         fprintf(stderr, "Too many arguments\n");
+        exit_status = 1;
         return;
     }
 
@@ -42,6 +43,7 @@ void cd(command c) {
 
     if (chdir(path) < 0) {
         perror("");
+        exit_status = 1;
     } else {
         // Store last directory if path provided was valid
         strcpy(last_dir, cwd);

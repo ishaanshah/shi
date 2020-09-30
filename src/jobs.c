@@ -9,7 +9,7 @@ void jobs(command c) {
      *
      * Args -
      *  c: The command struct containing information about the command.
-     */ 
+     */
     process *proc = proc_list;
     while (proc) {
         char proc_stat_path[MAX_PATH_LEN];

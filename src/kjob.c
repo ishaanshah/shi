@@ -13,9 +13,11 @@ void kjob(command c) {
     // Check if correct number of arguments are provided
     if(c.argc > 3) {
         fprintf(stderr, "Too many arguments\n");
+        exit_status = 1;
         return;
     } else if(c.argc < 3) {
         fprintf(stderr, "Too few arguments\n");
+        exit_status = 1;
         return;
     }
 
@@ -30,6 +32,7 @@ void kjob(command c) {
     }
     if (!proc) {
         fprintf(stderr, "Invalid job ID\n");
+        exit_status = 1;
         return;
     }
 
@@ -38,5 +41,6 @@ void kjob(command c) {
     int signal_to_send = strtol(c.argv[2], NULL, 10);
     if (kill(pid_to_kill, signal_to_send) < 0) {
         perror("kjob");
+        exit_status = 1;
     }
 }

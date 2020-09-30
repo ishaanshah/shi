@@ -29,6 +29,7 @@ void list_directory(const char *path, const int aflag, const int lflag) {
 
     if (num_of_entries < 0) {
         perror("");
+        exit_status = 1;
         return;
     }
 
@@ -44,6 +45,7 @@ void list_directory(const char *path, const int aflag, const int lflag) {
             // If stat is unsuccesful, skip the entry
             if (stat(buf, &st) < 0) {
                 perror("");
+                exit_status = 1;
                 continue;
             }
 

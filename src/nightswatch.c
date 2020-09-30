@@ -15,6 +15,7 @@ void newborn(int interval) {
         FILE *load_avg = fopen(path, "r");
         if (!load_avg) {
             perror("nightswatch");
+            exit_status = 1;
             break;
         }
         fscanf(load_avg, "%*s %*s %*s %*s %d", &recent_pid);
@@ -47,6 +48,7 @@ void interrupt(int interval) {
         FILE *interrupts = fopen(path, "r");
         if (!interrupts) {
             perror("nightswatch");
+            exit_status = 1;
             break;
         }
 
@@ -100,6 +102,7 @@ void nightswatch(command c) {
         } else {
             // If argument is not provided, exit
             if (optopt == 'n') {
+                exit_status = 1;
                 return;
             }
         }
@@ -108,6 +111,7 @@ void nightswatch(command c) {
     // Check if provided interval is valid
     if (interval <= 0) {
         fprintf(stderr, "Error: Interval has to be a positive integer\n");
+        exit_status = 1;
         return;
     }
 
@@ -118,9 +122,11 @@ void nightswatch(command c) {
             interrupt(interval);
         } else {
             fprintf(stderr, "Error: Invalid subcommand, choose from \"newborn\" or \"interrupt\"\n");
+            exit_status = 1;
         }
     } else {
         fprintf(stderr, "Error: Invalid subcommand, choose from \"newborn\" or \"interrupt\"\n");
+        exit_status = 1;
     }
 
     // Ignore it again

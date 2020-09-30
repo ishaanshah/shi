@@ -11,12 +11,14 @@ void overkill(command c) {
      */
     if (c.argc > 1) {
         fprintf(stderr, "Too many arguments\n");
-        return;;
+        exit_status = 1;
+        return;
     }
 
     while (proc_list) {
         if(kill(proc_list->pid, SIGKILL) < 0) {
             perror("overkill");
+            exit_status = 1;
         }
     }
 }

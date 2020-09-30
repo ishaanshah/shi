@@ -61,7 +61,7 @@ void execute(command c) {
 
             // Print error
             fprintf(stderr, "Error: command \"%s\" not found\n", c.argv[0]);
-            exit(0);
+            exit(1);
         }
     } else {
         // Parent process
@@ -83,6 +83,11 @@ void execute(command c) {
             // Insert in bg process list if process is stopped
             if (WIFSTOPPED(status)) {
                 insert_process(pid);
+                exit_status = 1;
+            }
+
+            if (!WIFEXITED(status)) {
+                exit_status = 1;
             }
         }
     }

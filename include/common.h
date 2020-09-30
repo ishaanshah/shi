@@ -21,4 +21,6 @@
 #include <unistd.h>
 #include <wait.h>
 
+extern int exit_status;
+
 #endif

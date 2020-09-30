@@ -8,7 +8,7 @@ SDIR = src
 BDIR = _build
 
 # List of dependancies for compiling
-ALL_OBJECTS = $(BDIR)/bg.o $(BDIR)/cd.o $(BDIR)/echo.o $(BDIR)/execute.o $(BDIR)/exit.o $(BDIR)/fg.o $(BDIR)/handlers.o $(BDIR)/history.o $(BDIR)/jobs.o $(BDIR)/kjob.o $(BDIR)/ls.o $(BDIR)/nightswatch.o $(BDIR)/overkill.o $(BDIR)/pcwd.o $(BDIR)/pinfo.o $(BDIR)/pipeline.o $(BDIR)/proc_list.o $(BDIR)/redirection.o $(BDIR)/shi.o $(BDIR)/signal_handlers.o $(BDIR)/setenv.o $(BDIR)/unsetenv.o $(BDIR)/utils.o
+ALL_OBJECTS = $(BDIR)/bg.o $(BDIR)/cd.o $(BDIR)/common.o $(BDIR)/echo.o $(BDIR)/execute.o $(BDIR)/exit.o $(BDIR)/fg.o $(BDIR)/handlers.o $(BDIR)/history.o $(BDIR)/jobs.o $(BDIR)/kjob.o $(BDIR)/ls.o $(BDIR)/nightswatch.o $(BDIR)/overkill.o $(BDIR)/pcwd.o $(BDIR)/pinfo.o $(BDIR)/pipeline.o $(BDIR)/proc_list.o $(BDIR)/redirection.o $(BDIR)/shi.o $(BDIR)/signal_handlers.o $(BDIR)/setenv.o $(BDIR)/unsetenv.o $(BDIR)/utils.o
 
 build: $(ALL_OBJECTS)
 	$(CC) $(CFLAGS) -I$(IDIR) -o shi $(ALL_OBJECTS)
@@ -18,6 +18,9 @@ $(BDIR)/bg.o: $(SDIR)/bg.c $(IDIR)/bg.h $(IDIR)/common.h $(IDIR)/proc_list.h $(I
 
 $(BDIR)/cd.o: $(SDIR)/cd.c $(IDIR)/cd.h $(IDIR)/common.h $(IDIR)/constants.h $(IDIR)/types.h $(IDIR)/utils.h
 	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/cd.c -o $(BDIR)/cd.o
+
+$(BDIR)/common.o: $(SDIR)/common.c $(IDIR)/common.h
+	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/common.c -o $(BDIR)/common.o
 
 $(BDIR)/echo.o: $(SDIR)/echo.c $(IDIR)/echo.h $(IDIR)/common.h $(IDIR)/types.h
 	$(CC) $(CFLAGS) -I$(IDIR) -c $(SDIR)/echo.c -o $(BDIR)/echo.o

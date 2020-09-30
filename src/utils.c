@@ -109,7 +109,14 @@ void print_prompt() {
     // Set hostname
     gethostname(hostname, HOST_NAME_MAX);
 
-    printf("<%s@%s:%s> ", get_username(), hostname, cwd);
+    if (exit_status == 0) {
+        printf(":')<%s@%s:%s> ", get_username(), hostname, cwd);
+    } else if (exit_status > 0) {
+        printf(":'(<%s@%s:%s> ", get_username(), hostname, cwd);
+    } else {
+        printf("<%s@%s:%s> ", get_username(), hostname, cwd);
+    }
+    exit_status = 0;
     fflush(stdout);
 
     free(cwd);

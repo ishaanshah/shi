@@ -12,6 +12,7 @@ void pcwd(command c) {
     // Check for excess args
     if (c.argc > 1) {
         fprintf(stderr, "Too many arguments\n");
+        exit_status = 1;
         return;
     }
 
