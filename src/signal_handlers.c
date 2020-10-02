@@ -61,8 +61,6 @@ void zombie_killer(int signal, siginfo_t *info, void *context) {
         if (WIFEXITED(status)) {
             print_prompt();
         }
-
-        exit_status = !info->si_status ? 0 : 1;
     }
 }
 

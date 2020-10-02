@@ -33,6 +33,7 @@ void cd(command c) {
         if (strcmp(c.argv[1], "-") == 0) {
             // If "-" is passed, navigate to last directory
             strcpy(path, last_dir);
+            printf("%s\n", path);
         } else {
             // Replace inital tilde with home if needed
             strcpy(path, c.argv[1]);

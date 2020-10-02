@@ -83,7 +83,7 @@ int main() {
                         }
                         strcpy(c.output, cmd_arg);
                         c.append = 1;
-                    } else if (!strlen(c.output) && strcmp(cmd_arg, "<") == 0) {
+                    } else if (strcmp(cmd_arg, "<") == 0) {
                         // Get file name
                         cmd_arg = strtok_r(NULL, " \t", &save_ptr[2]);
                         if (cmd_arg == NULL) {

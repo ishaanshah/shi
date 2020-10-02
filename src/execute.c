@@ -85,10 +85,6 @@ void execute(command c) {
                 insert_process(pid);
                 exit_status = 1;
             }
-
-            if (!WIFEXITED(status)) {
-                exit_status = 1;
-            }
         }
     }
 }
